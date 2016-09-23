@@ -6,6 +6,6 @@
 
 2. Escreva abaixo o resultado da função `infixoParaPosfixo` para a entrada `(1 + (2 + 3) * 4)` , ou seja, qual é o conteúdo do vetor saida no final da execução da função. **RESPOSTA:**  23+4*1+
 
-3. Escreva abaixo o valor devolvido pela função `calcula` para a entrada `5 2 3 4 + + *` **RESPOSTA:**  4*3+2+5
+3. Escreva abaixo o valor devolvido pela função `calcula` para a entrada `5 2 3 4 + + *` **RESPOSTA:**  45
 
 
