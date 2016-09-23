@@ -1,17 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <strings.h>
-#define MAX 1000
-struct pilha
-{
-    int t;      /* t é o topo da pilha -- proximo espaco vazio do vetor */
-    int v[MAX]; /* v é o vetor que armazena os elementos da pilha */
+typedef struct node* link;
+struct node {
+    int valor;
+    link next;
 };
 
-/* Define um novo tipo de dado chamado Pilha que é um ponteiro para "struct pilha". */
+struct pilha{
+    link t;      /* t Ã© o topo da pilha -- proximo espaco vazio do vetor */
+    
+};
+
+/* Define um novo tipo de dado chamado Pilha que Ã© um ponteiro para "struct pilha". */
 typedef struct pilha * Pilha;
 
-/* Aloca espaço para armazenar uma nova Pilha */
+link createNode (int valor, link next) {
+    link novoNo = malloc (sizeof(*novoNo));
+    novoNo->valor = valor;
+    novoNo->next = next;
+    return novoNo;
+}
+/* Aloca espaÃ§o para armazenar uma nova Pilha */
 Pilha novaPilha () {
     Pilha p = malloc(sizeof(*p));
     if (p == NULL)
@@ -19,27 +29,29 @@ Pilha novaPilha () {
             printf("Algum erro aconteceu !\n");
             exit(-1);
         }
-    p->t = 0; /* devemos inicializar o topo com 0 */
+    p->t = NULL; /* devemos inicializar o topo com 0 */
     return p;
 }
-/* Libera memória de uma dada pilha p */
+/* Libera memÃ³ria de uma dada pilha p */
 void destroiPilha (Pilha p)
 {
     free(p);
 }
-/* Operação de inserir novo elemento na pilha */
+/* OperaÃ§Ã£o de inserir novo elemento na pilha */
 void push (Pilha p, int valor) {
-    p->v[(p->t)++] = valor;
+    p->t = createNode (valor, p->t);
 }
-/* Operação de remover um elemento da pilha */
+/* OperaÃ§Ã£o de remover um elemento da pilha */
 int pop (Pilha p) {
-    return p->v[--(p->t)];
+    link t = p->t;
+    p->t = p->t->next;
+    return t->valor;
 }
-/* Operação para pegar o elemento do topo da pilha */
+/* OperaÃ§Ã£o para pegar o elemento do topo da pilha */
 int topo (Pilha p) {
-    return p->v[p->t - 1];
+    return p->t->valor;
 }
-/* Transforma a notação infixa para a notação posfixa */
+/* Transforma a notaÃ§Ã£o infixa para a notaÃ§Ã£o posfixa */
 int infixoParaPosfixo (char * entrada, char * saida, int n)
 {
     Pilha p = novaPilha();
@@ -105,10 +117,6 @@ int bemEncaixado (char* s) {
     int resultado = 1;
     for(i = 0; s[i] != '\0'; i++) {
         if(s[i] == '(') {
-            if(p->t >= MAX) {
-                resultado = 0;
-                break;
-            }
             push(p, 1);
         } else if (s[i] == ')') {
             if(p->t <= 0) {
@@ -166,7 +174,7 @@ int calcula ( char * s ) {
 
 
 
-/* Exemplo de utilização */
+/* Exemplo de utilizaÃ§Ã£o */
 int main () {
     char infixo[255] ;
     char posfixo[255];
